@@ -30,13 +30,13 @@ public class Employee implements UserDetails {
     @Column(name = "Phone")
     private String phone;
 
-    @Column(name = "ID_Role")
-    @Enumerated
+    @JoinColumn(name = "ID_Role")
+    @OneToOne
     private Role role;
 
     @JoinColumn(name = "ID_Restaurant")
     @ManyToOne
-    private Restaurant restaurant_id;
+    private Restaurant restaurantId;
 
     @Column(name = "Login")
     private String login;

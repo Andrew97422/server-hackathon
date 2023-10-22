@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private final AuthenticationProvider authenticationProvider;
+
     private final JwtAuthFilter authFilter;
 
     @Bean
@@ -33,9 +34,11 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        http.csrf(AbstractHttpConfigurer::disable);
+        http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/v1/**", "/test"
+                        .requestMatchers("/api/v1/register",
+                                "/test", "/api/v1/login"
                         )
                         .permitAll()
                         .anyRequest().authenticated()
@@ -46,17 +49,17 @@ public class WebSecurityConfig {
                 sessionManagement
                         .sessionConcurrency((sessionConcurrency) ->
                                 sessionConcurrency
-                                        .maximumSessions(1)
+                                        .maximumSessions(10)
                                         .expiredUrl("/login?expired")
                         )
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).disable()
-                .authenticationProvider(authenticationProvider)
-                .addFilterAfter(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout((logout) -> logout.logoutSuccessUrl("/api/v1/login"));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
+        http.authenticationProvider(authenticationProvider);
+        http.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
         http.cors(CorsConfigurer::disable);
         return http.build();
     }

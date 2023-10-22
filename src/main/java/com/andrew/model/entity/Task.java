@@ -38,4 +38,10 @@ public class Task {
 
     @Column(name = "Activity")
     private boolean active;
+
+    @Column(name = "Ready")
+    private boolean ready;
+
+    @Column(name = "CountTry")
+    private Integer count;
 }

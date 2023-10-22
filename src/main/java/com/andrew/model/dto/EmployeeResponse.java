@@ -1,11 +1,5 @@
-package com.andrew.auth;
+package com.andrew.model.dto;
 
-import com.andrew.model.entity.Restaurant;
-import com.andrew.model.enums.Role;
-import jakarta.persistence.Column;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RegisterRequest {
+public class EmployeeResponse {
 
     private String fio;
 

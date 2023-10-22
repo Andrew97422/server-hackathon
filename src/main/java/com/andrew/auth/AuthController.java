@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequiredArgsConstructor
 public class AuthController {
+
     private final AuthService authService;
 
     @PostMapping("/register")
@@ -46,7 +47,6 @@ public class AuthController {
         }
     }
 
-    @PreAuthorize("hasAnyAuthority('USER', 'OPERATOR', 'SUPER_ADMIN')")
     @PostMapping("/logout")
     public String performLogout(
             @AuthenticationPrincipal Employee user,
