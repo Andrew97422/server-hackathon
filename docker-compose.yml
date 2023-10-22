@@ -24,12 +24,12 @@ services:
       dockerfile: ./DockerfileDB
 
     ports:
-      - "5433:5432"
+      - "5432:5432"
 
     environment:
-      POSTGRES_USER: gen_user
-      POSTGRES_PASSWORD: w!RBFLUbuBWW2-
-      POSTGRES_DB: default_db
+      POSTGRES_USER: postgres #gen_user
+      POSTGRES_PASSWORD: 123 #w!RBFLUbuBWW2-
+      POSTGRES_DB: test-docker #default_db
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
