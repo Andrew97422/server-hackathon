@@ -5,6 +5,7 @@ import com.andrew.model.dto.TaskResponse;
 import com.andrew.model.entity.Employee;
 import com.andrew.model.entity.Task;
 import com.andrew.repository.TaskRepository;
+import com.andrew.repository.TaskStatusRepository;
 import com.andrew.repository.TaskTemplateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,15 +23,19 @@ public class TaskService {
 
     private final TaskTemplateRepository taskTemplateRepository;
 
+    private final TaskStatusRepository taskStatusRepository;
+
     @Transactional
     public Integer createNewTask(Employee employee, TaskRegisterRequest request) {
         var task = Task.builder().employee(employee).createDate(request.getCreateDate())
                 .closeDate(request.getCloseDate()).balls(request.getBalls())
                 .active(LocalDateTime.now().isAfter(request.getCreateDate())
                         && LocalDateTime.now().isBefore(request.getCloseDate()))
-                .ready(false).count(0).build();
+                .ready(false).countTry(0).build();
         var taskTemplate = taskTemplateRepository.getReferenceById(request.getTaskTemplate());
         task.setTaskTemplate(taskTemplate);
+        var taskStatus = taskStatusRepository.getReferenceById(1);
+        task.setTaskStatus(taskStatus);
         taskRepository.save(task);
         return task.getId();
     }
@@ -42,7 +47,7 @@ public class TaskService {
                 .createDate(task.getCreateDate()).closeDate(task.getCloseDate())
                 .taskTemplate(task.getTaskTemplate().getId()).balls(task.getBalls())
                 .taskStatus(task.getTaskStatus().getId()).ready(task.isReady())
-                .count(task.getCount()).active(task.isActive()).build();
+                .count(task.getCountTry()).active(task.isActive()).build();
     }
 
 
@@ -53,6 +58,6 @@ public class TaskService {
                 .createDate(task.getCreateDate()).closeDate(task.getCloseDate())
                 .taskTemplate(task.getTaskTemplate().getId()).balls(task.getBalls())
                 .taskStatus(task.getTaskStatus().getId()).ready(task.isReady())
-                .count(task.getCount()).active(task.isActive()).build()).collect(Collectors.toList());
+                .count(task.getCountTry()).active(task.isActive()).build()).collect(Collectors.toList());
     }
 }

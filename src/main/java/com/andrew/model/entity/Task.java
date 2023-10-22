@@ -48,6 +48,6 @@ public class Task {
     @Column(name = "Ready")
     private boolean ready;
 
-    @Column(name = "CountTry")
-    private Integer count;
+    @Column(name = "counttry")
+    private Integer countTry;
 }

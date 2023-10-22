@@ -12,12 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskRegisterRequest {
-    private Integer employeeId;
     private LocalDateTime createDate;
     private LocalDateTime closeDate;
     private Integer taskTemplate;
     private float balls;
-    private Integer taskStatus;
-    private boolean ready;
-    private Integer count;
 }

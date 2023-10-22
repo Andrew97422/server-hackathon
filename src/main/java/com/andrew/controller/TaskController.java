@@ -16,21 +16,21 @@ import java.util.List;
 @CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/task")
+//@PreAuthorize("hasAnyAuthority('Менеджер', 'Сотрудник')")
 public class TaskController {
 
     private final TaskService taskService;
 
-    @PreAuthorize("hasAuthority('Менеджер')")
     @PostMapping
     public ResponseEntity<Integer> createTask(
             @AuthenticationPrincipal Employee employee,
             @RequestBody TaskRegisterRequest request
-            ) {
+    ) {
+        System.out.println("IN");
         return ResponseEntity.ok(taskService.createNewTask(employee, request));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('Менеджер', 'Сотрудник')")
     public ResponseEntity<TaskResponse> getById(
         @PathVariable String id
     ) {
@@ -38,7 +38,6 @@ public class TaskController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('Менеджер')")
     public ResponseEntity<List<TaskResponse>> getAll() {
         return ResponseEntity.ok(taskService.getAll());
     }

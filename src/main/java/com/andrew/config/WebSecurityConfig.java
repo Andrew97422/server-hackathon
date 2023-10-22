@@ -38,7 +38,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/v1/register",
-                                "/test", "/api/v1/login"
+                                "/test", "/api/v1/login", "api/v1/**"
                         )
                         .permitAll()
                         .anyRequest().authenticated()
@@ -50,7 +50,6 @@ public class WebSecurityConfig {
                         .sessionConcurrency((sessionConcurrency) ->
                                 sessionConcurrency
                                         .maximumSessions(10)
-                                        .expiredUrl("/login?expired")
                         )
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).disable()
                 .logout((logout) -> logout.logoutSuccessUrl("/api/v1/login"));

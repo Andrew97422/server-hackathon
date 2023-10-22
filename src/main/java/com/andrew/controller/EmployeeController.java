@@ -13,12 +13,12 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/api/v1/employee")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyAuthority('Менеджер', 'Сотрудник')")
 public class EmployeeController {
 
     private final EmployeeService service;
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('Менеджер', 'Сотрудник')")
     public ResponseEntity<EmployeeResponse> getById(
             @PathVariable String id
     ) {
@@ -26,7 +26,6 @@ public class EmployeeController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('Менеджер')")
     public ResponseEntity<List<EmployeeResponse>> getAll() {
         return ResponseEntity.ok(service.getAll());
     }

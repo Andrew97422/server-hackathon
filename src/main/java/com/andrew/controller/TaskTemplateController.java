@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
-@PreAuthorize(value = "hasAuthority('Менеджер')")
+@PreAuthorize("hasAnyAuthority('Менеджер', 'Сотрудник')")
 @RequestMapping("/api/v1/task-template")
 public class TaskTemplateController {
 
