@@ -8,6 +8,7 @@ import com.andrew.repository.TaskRepository;
 import com.andrew.repository.TaskTemplateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,22 +22,20 @@ public class TaskService {
 
     private final TaskTemplateRepository taskTemplateRepository;
 
+    @Transactional
     public Integer createNewTask(Employee employee, TaskRegisterRequest request) {
-        var task = new Task();
-        task.setEmployee(employee);
-        task.setCreateDate(request.getCreateDate());
-        task.setCloseDate(request.getCloseDate());
+        var task = Task.builder().employee(employee).createDate(request.getCreateDate())
+                .closeDate(request.getCloseDate()).balls(request.getBalls())
+                .active(LocalDateTime.now().isAfter(request.getCreateDate())
+                        && LocalDateTime.now().isBefore(request.getCloseDate()))
+                .ready(false).count(0).build();
         var taskTemplate = taskTemplateRepository.getReferenceById(request.getTaskTemplate());
         task.setTaskTemplate(taskTemplate);
-        task.setBalls(request.getBalls());
-        task.setActive(LocalDateTime.now().isAfter(request.getCreateDate())
-                && LocalDateTime.now().isBefore(request.getCloseDate()));
-        task.setReady(false);
-        task.setCount(0);
         taskRepository.save(task);
         return task.getId();
     }
 
+    @Transactional(readOnly = true)
     public TaskResponse getById(int i) {
         var task = taskRepository.getReferenceById(i);
         return TaskResponse.builder().employeeId(task.getEmployee().getId())
@@ -47,6 +46,7 @@ public class TaskService {
     }
 
 
+    @Transactional(readOnly = true)
     public List<TaskResponse> getAll() {
         return taskRepository.findAll().stream().map(task -> TaskResponse.builder()
                 .employeeId(task.getEmployee().getId())

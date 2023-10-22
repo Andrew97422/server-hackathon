@@ -4,6 +4,7 @@ import com.andrew.model.dto.EmployeeResponse;
 import com.andrew.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
+    @Transactional(readOnly = true)
     public EmployeeResponse getById(int i) {
         var employee1 = employeeRepository.getReferenceById(i);
         return EmployeeResponse.builder()
@@ -24,6 +26,7 @@ public class EmployeeService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     public List<EmployeeResponse> getAll() {
         return employeeRepository.findAll().stream().map(i -> EmployeeResponse.builder()
                         .role(String.valueOf(i.getRole())).fio(i.getFio()).login(i.getLogin()).phone(i.getPhone())
