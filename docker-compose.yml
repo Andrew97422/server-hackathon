@@ -7,9 +7,9 @@ services:
       dockerfile: ./Dockerfile
     container_name: back
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db1:5432/Common-Food
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=123
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db1:5432/default_db
+      - SPRING_DATASOURCE_USERNAME=gen_user
+      - SPRING_DATASOURCE_PASSWORD=w!RBFLUbuBWW2-
     ports:
       - "8081:8081"
     depends_on:
@@ -27,9 +27,9 @@ services:
       - "5433:5432"
 
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: Common-Food
+      POSTGRES_USER: gen_user
+      POSTGRES_PASSWORD: w!RBFLUbuBWW2-
+      POSTGRES_DB: default_db
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
